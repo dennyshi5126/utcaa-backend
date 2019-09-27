@@ -1,6 +1,5 @@
 import { ERROR_TYPES as errors } from '../../utils/errors';
 import entities from '../../entities';
-import fileHelper from '../../utils/file';
 import { getUserRequestHeaders } from '../../utils/cookieHelpers';
 
 const signout = async (req, res, next) => {
@@ -13,33 +12,7 @@ const signout = async (req, res, next) => {
     res.statusCode = 404;
     next(Error(errors.NOT_FOUND));
   } else {
-    entities.user
-      .signout(req.body.email, userId, userSessionId, req.body.logout_all)
-      .then(() => {
-        res.response = {};
-        next();
-      })
-      .catch(err => {
-        next(err);
-      });
-  }
-};
-
-const uploadAvatar = async (req, res, next) => {
-  if (!req.files) {
-    res.statusCode = 400;
-    next(Error(errors.REQUEST_DATA_NOT_FOUND + '_FILES'));
-  } else {
-    fileHelper
-      .uploadToLocal(req.files.files, './files/')
-      .then(data => {
-        for (const avatar of data) {
-          entities.UserAvatarMap.new();
-        }
-      })
-      .catch(function(err) {
-        next(err);
-      });
+    //logics
   }
 };
 
@@ -96,19 +69,11 @@ const updateSelfPassword = async (req, res, next) => {
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_NEW_PASSWORD'));
   } else {
     const userId = req.user.id;
-    const { userEmail, userSessionId } = getUserRequestHeaders(req.headers);
     entities.user
-      .authenticate(userId, userEmail, userSessionId)
+      .updatePassword(userId, req.body.newPassword, req.body.password)
       .then(() => {
-        entities.user
-          .updatePassword(userId, req.body.newPassword, req.body.password)
-          .then(() => {
-            res.response = {};
-            next();
-          })
-          .catch(err => {
-            next(err);
-          });
+        res.response = {};
+        next();
       })
       .catch(err => {
         next(err);
@@ -119,7 +84,6 @@ const updateSelfPassword = async (req, res, next) => {
 export default {
   signout,
   authenticate,
-  uploadAvatar,
   getProfile,
   updateSelfProfile,
   updateSelfPassword,

@@ -16,7 +16,7 @@ The backend project of UTCAA website
 
 5.1, create a schema called `utcaa` with charset and default collation selected to `utf8mb4`
 
-5.2, create a user and password from the right config file, and give this user the `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `EXECUTE`, `CREATE`, `ALTER`, `REFERENCES`, `INDEX`, `DROP`, `TRIGGER` privileges to `ic`
+5.2, create a user and password from the right config file, and give this user the `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `EXECUTE`, `CREATE`, `ALTER`, `REFERENCES`, `INDEX`, `DROP`, `TRIGGER` privileges to `utcaa`
 
 6, run `npm run db:config` to configure the db connection
 
