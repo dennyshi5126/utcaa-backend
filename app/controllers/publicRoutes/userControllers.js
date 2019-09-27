@@ -45,6 +45,7 @@ const forgetPassword = async (req, res, next) => {
     //logics
     entities.user
       .then(() => {
+        res.statusCode = 200;
         res.respose = {};
         next();
       })
