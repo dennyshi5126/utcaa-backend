@@ -51,6 +51,14 @@ const forgetPassword = async (req, res, next) => {
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_RESET_LINK'));
   } else {
     //logics
+    entities.user
+      .then(() => {
+        res.respose = {};
+        next();
+      })
+      .catch(err => {
+        next(err);
+      });
   }
 };
 
