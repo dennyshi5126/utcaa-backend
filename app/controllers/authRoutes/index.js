@@ -5,5 +5,6 @@ const authRouter = express.Router();
 
 authRouter.route('/users/:userId/avatar').post(userControllers.uploadAvatar);
 authRouter.route('/users/authenticate').get(userControllers.authenticate);
+authRouter.route('/users/:userId/signout').delete(userControllers.signout);
 
 export default authRouter;
