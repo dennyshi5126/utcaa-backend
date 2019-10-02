@@ -52,7 +52,11 @@ const updateSelfProfile = async (req, res, next) => {
     const name = req.body.name ? req.body.name : '';
     const phone = req.body.phone ? req.body.phone : '';
     const wechat = req.body.wechat ? req.body.wechat : '';
-    entities.user.edit(userId, name, phone, wechat).then(() => {
+    const yearOfGraduation = req.body.yearOfGraduation ? req.body.yearOfGraduation : '';
+    const program = req.body.program ? req.body.program : '';
+    const profession = req.body.profession ? req.body.profession : '';
+    const city = req.body.city ? req.body.city : '';
+    entities.user.edit(userId, name, phone, wechat, yearOfGraduation, program, profession, city).then(() => {
       res.response = {};
       next();
     });
