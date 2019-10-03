@@ -13,7 +13,8 @@ const signout = async (req, res, next) => {
     next(Error(errors.NOT_FOUND));
   } else {
     //logics
-    entities.user.signout(userEmail, userId, userSessionId, true).then(function() {
+    const logoutAll = req.body.logoutAll ? req.body.logoutAll : false;
+    entities.user.signout(userEmail, userId, userSessionId, logoutAll).then(function() {
       res.response = {};
       next();
     });
