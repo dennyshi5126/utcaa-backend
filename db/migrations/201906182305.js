@@ -28,12 +28,6 @@ const up = function(queryInterface, Sequelize) {
         type: Sequelize.STRING(45),
         allowNull: false,
       },
-      groupId: {
-        type: Sequelize.INTEGER(11),
-        allowNull: false,
-        field: 'group_id',
-        references: { model: 'groups', key: 'id' },
-      },
       companyId: {
         type: Sequelize.UUID,
         allowNull: false,

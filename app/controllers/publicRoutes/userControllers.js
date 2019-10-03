@@ -53,8 +53,15 @@ const confirmForgetPassword = async (req, res, next) => {
   } else if (!req.body.password) {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_PASSWORD'));
+  } else if (!req.body.hash) {
+    res.statusCode = 400;
+    next(Error(errors.REQUEST_DATA_NOT_FOUND + '_HASH'));
   } else {
     //logics
+    entities.user.then(() => {
+      res.status(200).send({});
+      next();
+    });
   }
 };
 
