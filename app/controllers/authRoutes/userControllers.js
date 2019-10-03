@@ -44,15 +44,21 @@ const getProfile = async (req, res, next) => {
 };
 
 const updateSelfProfile = async (req, res, next) => {
-  if (!req.body.userId || req.body.userId !== req.params.userId) {
+  const {
+    userId,
+    name = '',
+    phone = '',
+    wechat = '',
+    yearOfGraduation = '',
+    program = '',
+    profession = '',
+    city = '',
+  } = req.body;
+  if (!userId || userId !== req.params.userId) {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_USER_ID'));
   } else {
-    const userId = req.body.userId;
-    const name = req.body.name ? req.body.name : '';
-    const phone = req.body.phone ? req.body.phone : '';
-    const wechat = req.body.wechat ? req.body.wechat : '';
-    entities.user.edit(userId, name, phone, wechat).then(() => {
+    entities.user.edit(userId, name, phone, wechat, yearOfGraduation, program, profession, city).then(() => {
       res.response = {};
       next();
     });
