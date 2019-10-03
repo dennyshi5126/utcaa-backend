@@ -1,7 +1,7 @@
 import entities from '../../entities';
 
 const list = async (_, res, next) => {
-  entities.department.getDepartments().then(result => {
+  entities.department.list().then(result => {
     if (!result) {
       res.response = { data: [], count: 0 };
     } else {
