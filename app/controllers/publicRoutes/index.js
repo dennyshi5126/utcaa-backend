@@ -6,6 +6,6 @@ const publicRouter = express.Router();
 
 publicRouter.route('/health').get(healthControllers.check);
 publicRouter.route('/users/password').post(userControllers.confirmForgetPassword);
-publicRouter.route('/departments').get(departmentControllers.getDepartments);
+publicRouter.route('/departments').get(departmentControllers.list);
 
 export default publicRouter;

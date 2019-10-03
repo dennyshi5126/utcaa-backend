@@ -1,6 +1,6 @@
 import entities from '../../entities';
 
-const getDepartments = async (_, res, next) => {
+const list = async (_, res, next) => {
   entities.department.getDepartments().then(result => {
     if (!result) {
       res.response = { data: [], count: 0 };
@@ -11,4 +11,4 @@ const getDepartments = async (_, res, next) => {
   });
 };
 
-export default { getDepartments };
+export default { list };
