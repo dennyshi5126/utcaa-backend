@@ -65,4 +65,6 @@ const confirmForgetPassword = async (req, res, next) => {
   }
 };
 
-export default { signup, signin, forgetPassword, confirmForgetPassword };
+const signupControllers = async (req, res) => {};
+
+export default { signup, signin, forgetPassword, confirmForgetPassword, signupControllers };
