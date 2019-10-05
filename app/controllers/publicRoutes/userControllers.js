@@ -44,13 +44,14 @@ const forgetPassword = async (req, res, next) => {
   } else {
     //logics
     entities.user
-      .then(() => {
+      .forgetPassword()
+      .then(result => {
         res.statusCode = 200;
         res.respose = {};
         next();
       })
       .catch(err => {
-        next(err);
+        next(Error(errors.REQUEST_DATA_NOT_FOUND + err));
       });
   }
 };
