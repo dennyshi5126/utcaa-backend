@@ -51,7 +51,8 @@ const getProfile = async (req, res, next) => {
 const updateSelfProfile = async (req, res, next) => {
   const {
     userId,
-    name = '',
+    firstName = '',
+    lastName = '',
     phone = '',
     wechat = '',
     yearOfGraduation = '',
@@ -63,10 +64,21 @@ const updateSelfProfile = async (req, res, next) => {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_USER_ID'));
   } else {
-    entities.user.edit(userId, name, phone, wechat, yearOfGraduation, program, profession, city).then(() => {
-      res.response = {};
-      next();
-    });
+    entities.user
+      .edit(userId, firstName, lastName)
+      .then(() => {
+        res.response = {};
+        next();
+      })
+      .catch(err => next(err));
+
+    entities.userProfile
+      .editProfile(userId, phone, wechat, yearOfGraduation, program, profession, city)
+      .then(() => {
+        res.response = {};
+        next();
+      })
+      .catch(err => next(err));
   }
 };
 

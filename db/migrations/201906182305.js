@@ -28,12 +28,6 @@ const up = function(queryInterface, Sequelize) {
         type: Sequelize.STRING(45),
         allowNull: false,
       },
-      companyId: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        field: 'company_id',
-        references: { model: 'companies', key: 'id' },
-      },
       consented: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -150,6 +144,59 @@ const up = function(queryInterface, Sequelize) {
                       allowNull: false,
                       field: 'latest_action_at',
                       defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+                    },
+                  });
+                })
+                .then(function() {
+                  console.log('creating user_profile...');
+                  return queryInterface.createTable('user_profile', {
+                    id: {
+                      type: Sequelize.INTEGER(11),
+                      primaryKey: true,
+                      autoIncrement: true,
+                      allowNull: false,
+                      isUnique: true,
+                    },
+                    userId: {
+                      type: Sequelize.UUID,
+                      allowNull: false,
+                      field: 'user_id',
+                      references: { model: 'users', key: 'id' },
+                    },
+                    phone: {
+                      type: Sequelize.STRING(15),
+                      allowNull: true,
+                    },
+                    wechat: {
+                      type: Sequelize.STRING(45),
+                      allowNull: true,
+                    },
+                    yearOfGraduation: {
+                      type: Sequelize.INTEGER(4),
+                      allowNull: false,
+                      field: 'year_of_graduation',
+                    },
+                    program: {
+                      type: Sequelize.STRING(100),
+                      allowNull: false,
+                    },
+                    profession: {
+                      type: Sequelize.STRING(100),
+                      allowNull: true,
+                    },
+                    city: {
+                      type: Sequelize.STRING(45),
+                      allowNull: false,
+                    },
+                    created_at: {
+                      type: Sequelize.DATE,
+                      allowNull: false,
+                      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+                    },
+                    updated_at: {
+                      type: Sequelize.DATE,
+                      allowNull: false,
+                      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
                     },
                   });
                 });
