@@ -35,17 +35,6 @@ export default function(sequelize, Sequelize) {
         allowNull: false,
         defaultValue: false,
       },
-      //add token and expire data for reset password
-      resetPasswordToken: {
-        type: Sequelize.STRING(128),
-        allowNull: true,
-        //so maybe need reset to null? if its unique
-        isUnique: true,
-      },
-      resetPasswordExpitre: {
-        type: sequelize.Date,
-        allowNull: true,
-      },
     },
     {
       tableName: 'users',

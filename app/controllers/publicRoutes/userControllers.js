@@ -46,13 +46,13 @@ const forgetPassword = async (req, res, next) => {
     const { email } = req.body;
     entities.user
       .forgetPassword(email)
-      .then(result => {
+      .then(() => {
         res.statusCode = 200;
         res.respose = {};
         next();
       })
       .catch(err => {
-        next(Error(errors.REQUEST_DATA_NOT_FOUND + err));
+        next(Error(errors.REQUEST_DATA_NOT_FOUND + err.message));
       });
   }
 };
