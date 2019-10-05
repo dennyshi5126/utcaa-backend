@@ -32,7 +32,8 @@ const signin = async (req, res, next) => {
   } else {
     //logics
     const { email, password, remember_login } = req.body;
-    userLogics.create(email, password, remember_login).then(result => {
+
+    entities.user.signin(email, password, remember_login).then(result => {
       res.response = {
         data: { user_id: result.user_id, session_id: result.session_id },
       };
