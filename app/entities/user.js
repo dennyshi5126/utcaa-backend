@@ -23,6 +23,8 @@ export default function(sequelize, Sequelize) {
       email: {
         type: Sequelize.STRING(128),
         allowNull: false,
+        //email should be unique since the need to be use for reset
+        isUnique: true,
       },
       password: {
         type: Sequelize.STRING(128),
@@ -32,6 +34,17 @@ export default function(sequelize, Sequelize) {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      //add token and expire data for reset password
+      resetPasswordToken: {
+        type: Sequelize.STRING(128),
+        allowNull: true,
+        //so maybe need reset to null? if its unique
+        isUnique: true,
+      },
+      resetPasswordExpitre: {
+        type: sequelize.Date,
+        allowNull: true,
       },
     },
     {
