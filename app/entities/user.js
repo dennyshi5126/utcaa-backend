@@ -129,7 +129,7 @@ export default function(sequelize, Sequelize) {
     });
   };
 
-  user.edit = function(userId, firstName, lastName) {
+  user.edit = function(userId, name) {
     const editUserAction = new Promise((resolve, reject) => {
       user.findOne({ where: { id: userId } }).then(function(existingUser) {
         const userObject = {};
@@ -137,9 +137,8 @@ export default function(sequelize, Sequelize) {
         if (!existingUser) {
           reject(Error(errors.NOT_FOUND));
         } else {
-          if (firstName !== existingUser.first_name || lastName !== existingUser.last_name) {
-            userObject.first_name = firstName;
-            userObject.last_name = lastName;
+          if (name !== existingUser.name) {
+            userObject.name = name;
             dataChanged = true;
           }
           if (dataChanged) {

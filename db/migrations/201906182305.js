@@ -16,14 +16,6 @@ const up = function(queryInterface, Sequelize) {
         type: Sequelize.STRING(128),
         allowNull: false,
       },
-      first_name: {
-        type: Sequelize.STRING(45),
-        allowNull: false,
-      },
-      last_name: {
-        type: Sequelize.STRING(45),
-        allowNull: false,
-      },
       email: {
         type: Sequelize.STRING(45),
         allowNull: false,
@@ -162,6 +154,14 @@ const up = function(queryInterface, Sequelize) {
                       allowNull: false,
                       field: 'user_id',
                       references: { model: 'users', key: 'id' },
+                    },
+                    first_name: {
+                      type: Sequelize.STRING(45),
+                      allowNull: false,
+                    },
+                    last_name: {
+                      type: Sequelize.STRING(45),
+                      allowNull: false,
                     },
                     phone: {
                       type: Sequelize.STRING(15),

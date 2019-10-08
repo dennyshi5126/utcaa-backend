@@ -1,4 +1,5 @@
 import entities from '../entities';
+import { ERROR_TYPES as errors } from '../utils/errors';
 
 export default function(sequelize, Sequelize) {
   const userProfile = sequelize.define(
@@ -16,6 +17,16 @@ export default function(sequelize, Sequelize) {
         isUnique: true,
         allowNull: false,
         field: 'user_id',
+      },
+      firstName: {
+        type: Sequelize.STRING(45),
+        allowNull: false,
+        field: 'first_name',
+      },
+      lastName: {
+        type: Sequelize.STRING(45),
+        allowNull: false,
+        field: 'last_name',
       },
       phone: {
         type: Sequelize.STRING(15),
@@ -52,13 +63,17 @@ export default function(sequelize, Sequelize) {
     }
   );
 
-  userProfile.editProfile = function(userId, phone, wechat, yearOfGraduation, program, profession, city) {
+  userProfile.editProfile = function(userId, profileObject) {
     const editProfileAction = new Promise((resolve, reject) => {
-      const profileObject = { phone, wechat, yearOfGraduation, program, profession, city };
-      userProfile
-        .update(profileObject, { where: { userId } })
-        .then(() => resolve({}))
-        .catch(err => reject(err));
+      entities.user.findOne({ where: { id: userId } }).then(function(existingUser) {
+        if (!existingUser) reject(Error(errors.NOT_FOUND));
+        else {
+          userProfile
+            .update(profileObject, { where: { userId } })
+            .then(() => resolve({}))
+            .catch(err => reject(err));
+        }
+      });
     });
   };
 }
