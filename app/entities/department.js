@@ -1,4 +1,4 @@
-export default function(sequelize, Sequelize) {
+export default (sequelize, Sequelize) => {
   const department = sequelize.define(
     'deparment',
     {
@@ -21,7 +21,7 @@ export default function(sequelize, Sequelize) {
     }
   );
 
-  department.list = function() {
+  department.list = () => {
     return department.findAll();
   };
-}
+};

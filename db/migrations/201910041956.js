@@ -1,6 +1,6 @@
 'use strict';
 
-const up = function(queryInterface, Sequelize) {
+const up = (queryInterface, Sequelize) => {
   console.log('creating departments table...');
   return queryInterface
     .createTable('departments', {
@@ -17,7 +17,7 @@ const up = function(queryInterface, Sequelize) {
         isUnique: true,
       },
     })
-    .then(function() {
+    .then(() => {
       console.log('inserting departments data...');
       return queryInterface.bulkInsert('departments', [
         { name: '活动部 Events' },
@@ -28,7 +28,7 @@ const up = function(queryInterface, Sequelize) {
     });
 };
 
-const down = function(queryInterface) {
+const down = queryInterface => {
   console.log('dropping departments table...');
   return queryInterface.dropTable('departments');
 };
