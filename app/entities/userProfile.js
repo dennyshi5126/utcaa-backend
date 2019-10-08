@@ -1,7 +1,7 @@
 import entities from '../entities';
 import { ERROR_TYPES as errors } from '../utils/errors';
 
-export default function(sequelize, Sequelize) {
+export default (sequelize, Sequelize) => {
   const userProfile = sequelize.define(
     'userProfile',
     {
@@ -63,9 +63,9 @@ export default function(sequelize, Sequelize) {
     }
   );
 
-  userProfile.editProfile = function(userId, profileObject) {
+  userProfile.editProfile = (userId, profileObject) => {
     const editProfileAction = new Promise((resolve, reject) => {
-      entities.user.findOne({ where: { id: userId } }).then(function(existingUser) {
+      entities.user.findOne({ where: { id: userId } }).then(existingUser => {
         if (!existingUser) reject(Error(errors.NOT_FOUND));
         else {
           userProfile
@@ -76,4 +76,4 @@ export default function(sequelize, Sequelize) {
       });
     });
   };
-}
+};
