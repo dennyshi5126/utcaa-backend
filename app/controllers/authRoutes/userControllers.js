@@ -50,8 +50,8 @@ const getProfile = async (req, res, next) => {
 
 const updateSelfProfile = async (req, res, next) => {
   const {
-    userId,
-    name = '',
+    firstName = '',
+    lastName = '',
     phone = '',
     wechat = '',
     yearOfGraduation = '',
@@ -59,14 +59,19 @@ const updateSelfProfile = async (req, res, next) => {
     profession = '',
     city = '',
   } = req.body;
-  if (!userId || userId !== req.params.userId) {
+  const userId = req.params.userId;
+  if (!userId) {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_USER_ID'));
   } else {
-    entities.user.edit(userId, name, phone, wechat, yearOfGraduation, program, profession, city).then(() => {
-      res.response = {};
-      next();
-    });
+    const userProfileObject = { firstName, lastName, phone, wechat, yearOfGraduation, program, profession, city };
+    entities.userProfile
+      .editProfile(userId, userProfileObject)
+      .then(() => {
+        res.response = {};
+        next();
+      })
+      .catch(err => next(err));
   }
 };
 
