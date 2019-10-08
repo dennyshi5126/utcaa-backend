@@ -50,7 +50,6 @@ const getProfile = async (req, res, next) => {
 
 const updateSelfProfile = async (req, res, next) => {
   const {
-    userId,
     firstName = '',
     lastName = '',
     phone = '',
@@ -60,7 +59,8 @@ const updateSelfProfile = async (req, res, next) => {
     profession = '',
     city = '',
   } = req.body;
-  if (!userId || userId !== req.params.userId) {
+  const userId = req.params.userId;
+  if (!userId) {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_USER_ID'));
   } else {

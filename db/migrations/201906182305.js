@@ -171,10 +171,9 @@ const up = function(queryInterface, Sequelize) {
                       type: Sequelize.STRING(45),
                       allowNull: true,
                     },
-                    yearOfGraduation: {
+                    year_of_graduation: {
                       type: Sequelize.INTEGER(4),
                       allowNull: false,
-                      field: 'year_of_graduation',
                     },
                     program: {
                       type: Sequelize.STRING(100),
