@@ -149,10 +149,9 @@ const up = function(queryInterface, Sequelize) {
                       allowNull: false,
                       isUnique: true,
                     },
-                    userId: {
+                    user_id: {
                       type: Sequelize.UUID,
                       allowNull: false,
-                      field: 'user_id',
                       references: { model: 'users', key: 'id' },
                     },
                     first_name: {
