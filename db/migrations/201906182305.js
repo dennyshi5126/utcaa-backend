@@ -141,7 +141,7 @@ const up = function(queryInterface, Sequelize) {
                 })
                 .then(function() {
                   console.log('creating user_profile...');
-                  return queryInterface.createTable('user_profile', {
+                  return queryInterface.createTable('user_profiles', {
                     id: {
                       type: Sequelize.INTEGER(11),
                       primaryKey: true,

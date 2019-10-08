@@ -55,7 +55,7 @@ export default function(sequelize, Sequelize) {
       },
     },
     {
-      tableName: 'user_profile',
+      tableName: 'user_profiles',
       timestamps: true,
       createdAt: 'created_at',
       updatedAt: 'updated_at',
