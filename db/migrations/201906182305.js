@@ -140,7 +140,7 @@ const up = function(queryInterface, Sequelize) {
                   });
                 })
                 .then(function() {
-                  console.log('creating user_profile...');
+                  console.log('creating user_profiles...');
                   return queryInterface.createTable('user_profiles', {
                     id: {
                       type: Sequelize.INTEGER(11),
