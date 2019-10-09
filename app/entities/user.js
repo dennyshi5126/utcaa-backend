@@ -118,7 +118,18 @@ export default function(sequelize, Sequelize) {
   };
 
   user.signin = function(email, password, rememberSession) {
-    const signinAction = new Promise((resolve, reject) => {});
+    const signinAction = new Promise((resolve, reject) => {
+      user.findOne({ where: { email } }).then(function(existingUser) {
+        if (!existingUser) {
+          reject(Error(errors.UNAUTHENTICATED));
+        } else if (!compare(email, existingUser.email)) {
+          reject(Error(errors.UNAUTHENTICATED));
+        } else {
+          const userId = existingUser.get('id');
+          const userSession = entities.userSession.add(userId, email, rememberSession);
+        }
+      });
+    });
     return signinAction;
   };
 
