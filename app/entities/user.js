@@ -194,19 +194,13 @@ export default function(sequelize, Sequelize) {
 
   user.forgetPassword = function(email, resetLink) {
     const forgetPasswordAction = new Promise(async (resolve, reject) => {
-      user.findOne({ where: { email } }).then(async function(existigEmail) {
-        if (!existigEmail) {
-          reject(Error(errors.NOT_FOUND));
-        } else {
-          const hash = await entities.passwordReset.reset(email);
-          const emailQuery = `?email=${email.replace('@', '%40')}`;
-          const emailOptions = assembleResetPasswordEmail(resetLink + '/' + hash + emailQuery);
-          emailSender
-            .send(email, emailOptions.bcc, emailOptions.title, emailOptions.content, emailOptions.html)
-            .then(email => resolve(email))
-            .catch(error => reject(error));
-        }
-      });
+      const hash = await entities.passwordReset.reset(email);
+      const emailQuery = `?email=${email.replace('@', '%40')}`;
+      const emailOptions = assembleResetPasswordEmail(resetLink + '/' + hash + emailQuery);
+      emailSender
+        .send(email, emailOptions.bcc, emailOptions.title, emailOptions.content, emailOptions.html)
+        .then(email => resolve(email))
+        .catch(error => reject(error));
     });
     return forgetPasswordAction;
   };
