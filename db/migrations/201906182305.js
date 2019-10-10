@@ -1,7 +1,7 @@
 'use strict';
 const uuid = require('uuid');
 
-const up = function(queryInterface, Sequelize) {
+const up = (queryInterface, Sequelize) => {
   console.log('creating users...');
   return queryInterface
     .createTable('users', {
@@ -36,7 +36,7 @@ const up = function(queryInterface, Sequelize) {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       },
     })
-    .then(function() {
+    .then(() => {
       console.log('creating user_sessions...');
       return queryInterface
         .createTable('user_sessions', {
@@ -84,7 +84,7 @@ const up = function(queryInterface, Sequelize) {
             field: 'expire_at',
           },
         })
-        .then(function() {
+        .then(() => {
           console.log('creating account_action_types...');
           return queryInterface
             .createTable('account_action_types', {
@@ -101,7 +101,7 @@ const up = function(queryInterface, Sequelize) {
                 field: 'name',
               },
             })
-            .then(function() {
+            .then(() => {
               console.log('initializing account_action_types...');
               return queryInterface.sequelize
                 .query(
@@ -109,7 +109,7 @@ const up = function(queryInterface, Sequelize) {
           (2,'signout'),(3,'signup'),(4,'deactivate'), (5,'validate'),(6,'reset'),(7,'forgot'),\
           (8,'forgotvalidate');"
                 )
-                .then(function() {
+                .then(() => {
                   console.log('creating user_history...');
                   return queryInterface.createTable('user_history', {
                     id: {
@@ -139,7 +139,7 @@ const up = function(queryInterface, Sequelize) {
                     },
                   });
                 })
-                .then(function() {
+                .then(() => {
                   console.log('creating user_profiles...');
                   return queryInterface.createTable('user_profiles', {
                     id: {
@@ -203,4 +203,17 @@ const up = function(queryInterface, Sequelize) {
     });
 };
 
-module.exports = { up };
+const down = async queryInterface => {
+  console.log('dropping user_profiles table...');
+  await queryInterface.dropTable('user_profiles');
+  console.log('dropping user_history table...');
+  await queryInterface.dropTable('user_history');
+  console.log('dropping account_action_types table...');
+  await queryInterface.dropTable('account_action_types');
+  console.log('dropping user_sessions table...');
+  await queryInterface.dropTable('user_sessions');
+  console.log('dropping users table...');
+  await queryInterface.dropTable('users');
+};
+
+module.exports = { up, down };
