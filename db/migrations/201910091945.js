@@ -1,5 +1,4 @@
 'use strict';
-var moment = require('moment');
 
 const up = (queryInterface, Sequelize) => {
   console.log('creating events table...');

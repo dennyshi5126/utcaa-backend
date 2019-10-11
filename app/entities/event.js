@@ -48,7 +48,7 @@ export default (sequelize, Sequelize) => {
   );
 
   event.list = () => {
-    return user.findAll({
+    return event.findAll({
       attributes: ['id', 'title', 'imageUrl', 'link'],
       order: [['time', 'DESC']],
     });
