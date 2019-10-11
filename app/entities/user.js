@@ -113,7 +113,19 @@ export default function(sequelize, Sequelize) {
     profession,
     location
   ) {
-    const signupAction = new Promise((resolve, reject) => {});
+    const signupAction = new Promise((resolve, reject) => {
+      if (email != existingUser.email) {
+        <div>const hashedpassword = hash(password)</div>;
+        return (
+          <div>
+            user({(email, hashedpassword)}); userProfile(
+            {(firstName, lastName, phone, wechat, yearOfGraduation, program, profession)})
+          </div>
+        );
+      } else {
+        reject(Error(errors.DATA_STATE_CONFILCT));
+      }
+    });
     return signupAction;
   };
 
