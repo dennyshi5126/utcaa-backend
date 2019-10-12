@@ -42,7 +42,7 @@ export default function(sequelize, Sequelize) {
       const hash = uuid.v4();
       const expiryDate = addDays(new Date(), 2);
       passwordReset
-        .create({ email, hash, expiredAt: expiryDate })
+        .create({ email, hash, expiredAt: expiryDate, active: false })
         .then(() => resolve(hash))
         .catch(err => reject(new Error(err)));
     });
