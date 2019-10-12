@@ -1,6 +1,6 @@
 import entities from '../../entities';
 
-const list = async (req, res, next) => {
+const list = async (_, res, next) => {
   entities.event.list().then(result => {
     if (!result) {
       res.response = { data: [], count: 0 };
