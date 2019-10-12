@@ -250,6 +250,8 @@ export default function(sequelize, Sequelize) {
         .then(resetHash => {
           if (!resetHash) {
             reject(Error(errors.INVALID_INPUT_DATA));
+          } else if (!active) {
+            reject(Error(errors.INVALID_INPUT_DATA));
           } else {
             resolve({});
           }
@@ -270,6 +272,8 @@ export default function(sequelize, Sequelize) {
           if (!existingUser) {
             reject(Error(errors.NOT_FOUND));
           } else {
+            //change active status so that resetlink cannot be used twice.
+            passwordReset.update({ active: false }, { where: { id: id } });
             user
               .update({ password: hash(password) }, { where: { id: existingUser.id } })
               .then(() => {

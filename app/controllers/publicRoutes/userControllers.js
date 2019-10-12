@@ -46,6 +46,17 @@ const forgetPassword = async (req, res, next) => {
   }
 };
 
+//when user click resetLink
+const resetPassword = async (req, res, next) => {
+  if (!req.url) {
+    res.statusCode = 400;
+    next(Error(errors.REQUEST_DATA_NOT_FOUND + '_EMAIL'));
+  } else {
+    //logics
+  }
+};
+
+//when user click confirmResetPassword
 const confirmForgetPassword = async (req, res, next) => {
   if (!req.body.email || req.body.email !== req.query.email.replace('%40', '@')) {
     res.statusCode = 400;
@@ -65,4 +76,4 @@ const confirmForgetPassword = async (req, res, next) => {
   }
 };
 
-export default { signup, signin, forgetPassword, confirmForgetPassword };
+export default { signup, signin, forgetPassword, resetPassword, confirmForgetPassword };
