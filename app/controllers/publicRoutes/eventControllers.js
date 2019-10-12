@@ -5,7 +5,7 @@ const list = async (req, res, next) => {
     if (!result) {
       res.response = { data: [], count: 0 };
     } else {
-      res.response = { data: [result], count: result.length };
+      res.response = { data: result, count: result.length };
     }
     next();
   });
