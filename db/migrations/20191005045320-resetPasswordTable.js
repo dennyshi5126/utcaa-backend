@@ -4,8 +4,8 @@ const uuid = require('uuid');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    console.log('creating resetPasswordTable...');
-    return queryInterface.createTable('resetPasswordTable', {
+    console.log('creating reset_password table...');
+    return queryInterface.createTable('reset_password', {
       id: {
         type: Sequelize.UUID,
         defaultValue: () => uuid.v4(),
@@ -13,34 +13,37 @@ module.exports = {
         allowNull: false,
         isUnique: true,
       },
-      user_id: {
-        type: Sequelize.STRING(45),
-        allowNull: false,
-        isUnique: false,
-      },
       email: {
         type: Sequelize.STRING(128),
         allowNull: false,
-        //maybe there is mutiple attempt reset.. can be mutiple request
         isUnique: false,
       },
-      //add token and expire data for reset password
-      reset_password_token: {
+      hash: {
         type: Sequelize.STRING(128),
         allowNull: false,
-        //so maybe need reset to null? if its unique
         isUnique: true,
       },
-      expiry_timestamp: {
+      expired_at: {
         type: sequelize.DATE,
         allowNull: false,
         isUnique: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
+      active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        isUnique: false,
+        defaultValue: false,
       },
     });
   },
 
   down: (queryInterface, Sequelize) => {
-    console.log('undo the up operation for reatsetpasswordtable');
-    return queryInterface.dropTable('resetPasswordTable');
+    console.log('undo the up operation for reset_password');
+    return queryInterface.dropTable('reset_password');
   },
 };
