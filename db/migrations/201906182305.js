@@ -203,17 +203,4 @@ const up = (queryInterface, Sequelize) => {
     });
 };
 
-const down = async queryInterface => {
-  console.log('dropping user_profiles table...');
-  await queryInterface.dropTable('user_profiles');
-  console.log('dropping user_history table...');
-  await queryInterface.dropTable('user_history');
-  console.log('dropping account_action_types table...');
-  await queryInterface.dropTable('account_action_types');
-  console.log('dropping user_sessions table...');
-  await queryInterface.dropTable('user_sessions');
-  console.log('dropping users table...');
-  await queryInterface.dropTable('users');
-};
-
-module.exports = { up, down };
+module.exports = { up };
