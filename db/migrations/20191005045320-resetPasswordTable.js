@@ -37,13 +37,13 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         isUnique: false,
-        defaultValue: false,
+        defaultValue: true,
       },
     });
   },
 
   down: (queryInterface, Sequelize) => {
-    console.log('undo the up operation for reset_password');
+    console.log('dropping reset_password');
     return queryInterface.dropTable('reset_password');
   },
 };
