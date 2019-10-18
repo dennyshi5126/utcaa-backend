@@ -31,6 +31,14 @@ const signin = async (req, res, next) => {
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_PASSWORD'));
   } else {
     //logics
+    const { email, password, remember_login } = req.body;
+
+    entities.user.signin(email, password, remember_login).then(result => {
+      res.response = {
+        data: { user_id: result.user_id, session_id: result.session_id },
+      };
+      next();
+    });
   }
 };
 
@@ -38,9 +46,6 @@ const forgetPassword = async (req, res, next) => {
   if (!req.body.email) {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_EMAIL'));
-    // } else if (!req.body.resetLink) {
-    //   res.statusCode = 400;
-    //   next(Error(errors.REQUEST_DATA_NOT_FOUND + '_RESET_LINK'));
   } else {
     //logics
     const { email } = req.body;
@@ -64,8 +69,15 @@ const confirmForgetPassword = async (req, res, next) => {
   } else if (!req.body.password) {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_PASSWORD'));
+  } else if (!req.body.hash) {
+    res.statusCode = 400;
+    next(Error(errors.REQUEST_DATA_NOT_FOUND + '_HASH'));
   } else {
     //logics
+    entities.user.then(() => {
+      res.status(200).send({});
+      next();
+    });
   }
 };
 

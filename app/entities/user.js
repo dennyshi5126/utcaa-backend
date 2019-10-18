@@ -8,6 +8,7 @@ import { isAuthenticated } from '../security/authProvider';
 import userSessions from '../repositories/userSessions';
 import emailSender from '../utils/email/sender';
 import assembleResetPasswordEmail from '../utils/email/templates/forgetPassword';
+import passwordReset from './passwordReset';
 
 export default function(sequelize, Sequelize) {
   const user = sequelize.define(
