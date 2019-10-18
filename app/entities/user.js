@@ -121,9 +121,9 @@ export default function(sequelize, Sequelize) {
     const signinAction = new Promise((resolve, reject) => {
       user.findOne({ where: { email } }).then(async function(existingUser) {
         if (!existingUser) {
-          reject(Error(errors.UNAUTHENTICATED));
+          reject(Error(errors.NOT_FOUND));
         } else if (!compare(email, existingUser.email)) {
-          reject(Error(errors.UNAUTHENTICATED));
+          reject(Error(errors.NOT_FOUND));
         } else {
           const userId = existingUser.id;
           const userSession = await entities.userSession.add(userId, email, rememberSession);
