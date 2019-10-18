@@ -8,7 +8,6 @@ import { isAuthenticated } from '../security/authProvider';
 import userSessions from '../repositories/userSessions';
 import emailSender from '../utils/email/sender';
 import assembleResetPasswordEmail from '../utils/email/templates/forgetPassword';
-import passwordReset from './passwordReset';
 
 export default function(sequelize, Sequelize) {
   const user = sequelize.define(
@@ -200,10 +199,10 @@ export default function(sequelize, Sequelize) {
           reject(Error(errors.NOT_FOUND));
         } else {
           const emailQuery = `?email=${email.replace('@', '%40')}`;
-          const resetTbleAtion = await passwordReset.reset(email).catch(err => {
-            reject(Error(errors.NOT_FOUND));
-          });
-          const emailOptions = assembleResetPasswordEmail('/' + resetTbleAtion.hash + emailQuery);
+          const resetTableAtion = await entities.passwordReset.reset(email);
+          const emailOptions = assembleResetPasswordEmail(
+            '?' + 'hash=' + resetTableAtion.hash + '&email=' + emailQuery
+          );
           emailSender
             .send(email, emailOptions.bcc, emailOptions.title, emailOptions.content, emailOptions.html)
             .then(email => resolve(email))
