@@ -33,9 +33,9 @@ export default (sequelize, Sequelize) => {
         type: Sequelize.STRING(1000),
         isUnique: true,
       },
-      eventPhotos: {
-        type: Sequelize.STRING(1000),
-        field: 'event_photos',
+      active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
       },
     },
     {
@@ -50,6 +50,7 @@ export default (sequelize, Sequelize) => {
   event.list = () => {
     return event.findAll({
       attributes: ['id', 'title', 'imageUrl', 'link'],
+      where: { active: true },
       order: [['time', 'DESC']],
     });
   };
