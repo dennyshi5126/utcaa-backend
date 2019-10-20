@@ -117,9 +117,9 @@ export default function(sequelize, Sequelize) {
     return signupAction;
   };
 
-  user.signin = function(email, password, rememberSession) {
+  user.signin = (email, password, rememberSession) => {
     const signinAction = new Promise((resolve, reject) => {
-      user.findOne({ where: { email } }).then(async function(existingUser) {
+      user.findOne({ where: { email } }).then(async existingUser => {
         if (!existingUser) {
           reject(Error(errors.NOT_FOUND));
         } else if (!compare(email, existingUser.email)) {
