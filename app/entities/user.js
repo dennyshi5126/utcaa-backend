@@ -8,6 +8,7 @@ import { isAuthenticated } from '../security/authProvider';
 import userSessions from '../repositories/userSessions';
 import emailSender from '../utils/email/sender';
 import assembleResetPasswordEmail from '../utils/email/templates/forgetPassword';
+import passwordReset from './passwordReset';
 
 export default function(sequelize, Sequelize) {
   const user = sequelize.define(
@@ -23,6 +24,8 @@ export default function(sequelize, Sequelize) {
       email: {
         type: Sequelize.STRING(128),
         allowNull: false,
+        //email should be unique since the need to be use for reset
+        isUnique: true,
       },
       password: {
         type: Sequelize.STRING(128),
@@ -202,15 +205,23 @@ export default function(sequelize, Sequelize) {
     return signoutAction;
   };
 
-  user.forgetPassword = function(email, resetLink) {
+  user.forgetPassword = function(email) {
     const forgetPasswordAction = new Promise(async (resolve, reject) => {
-      const hash = await entities.passwordReset.reset(email);
-      const emailQuery = `?email=${email.replace('@', '%40')}`;
-      const emailOptions = assembleResetPasswordEmail(resetLink + '/' + hash + emailQuery);
-      emailSender
-        .send(email, emailOptions.bcc, emailOptions.title, emailOptions.content, emailOptions.html)
-        .then(email => resolve(email))
-        .catch(error => reject(error));
+      user.findOne({ where: { email: email } }).then(async function(existingUser) {
+        if (!existingUser) {
+          reject(Error(errors.NOT_FOUND));
+        } else {
+          const emailQuery = `?email=${email.replace('@', '%40')}`;
+          const resetTableAtion = await entities.passwordReset.reset(email);
+          const emailOptions = assembleResetPasswordEmail(
+            '?' + 'hash=' + resetTableAtion.hash + '&email=' + emailQuery
+          );
+          emailSender
+            .send(email, emailOptions.bcc, emailOptions.title, emailOptions.content, emailOptions.html)
+            .then(email => resolve(email))
+            .catch(error => reject(error));
+        }
+      });
     });
     return forgetPasswordAction;
   };
