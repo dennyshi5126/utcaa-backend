@@ -13,6 +13,11 @@ const signout = async (req, res, next) => {
     next(Error(errors.NOT_FOUND));
   } else {
     //logics
+    const logoutAll = req.body.logoutAll ? req.body.logoutAll : false;
+    entities.user.signout(userEmail, userId, userSessionId, logoutAll).then(function() {
+      res.response = {};
+      next();
+    });
   }
 };
 
@@ -44,18 +49,29 @@ const getProfile = async (req, res, next) => {
 };
 
 const updateSelfProfile = async (req, res, next) => {
-  if (!req.body.userId || req.body.userId !== req.params.userId) {
+  const {
+    firstName = '',
+    lastName = '',
+    phone = '',
+    wechat = '',
+    yearOfGraduation = '',
+    program = '',
+    profession = '',
+    city = '',
+  } = req.body;
+  const userId = req.params.userId;
+  if (!userId) {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_USER_ID'));
   } else {
-    const userId = req.body.userId;
-    const name = req.body.name ? req.body.name : '';
-    const phone = req.body.phone ? req.body.phone : '';
-    const wechat = req.body.wechat ? req.body.wechat : '';
-    entities.user.edit(userId, name, phone, wechat).then(() => {
-      res.response = {};
-      next();
-    });
+    const userProfileObject = { firstName, lastName, phone, wechat, yearOfGraduation, program, profession, city };
+    entities.userProfile
+      .editProfile(userId, userProfileObject)
+      .then(() => {
+        res.response = {};
+        next();
+      })
+      .catch(err => next(err));
   }
 };
 
