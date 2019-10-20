@@ -47,7 +47,6 @@ const forgetPassword = async (req, res, next) => {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_EMAIL'));
   } else {
-    //logics
     const { email } = req.body;
     entities.user
       .forgetPassword(email)
