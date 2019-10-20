@@ -120,8 +120,20 @@ export default function(sequelize, Sequelize) {
     return signupAction;
   };
 
-  user.signin = function(email, password, rememberSession) {
-    const signinAction = new Promise((resolve, reject) => {});
+  user.signin = (email, password, rememberSession) => {
+    const signinAction = new Promise((resolve, reject) => {
+      user.findOne({ where: { email } }).then(async existingUser => {
+        if (!existingUser) {
+          reject(Error(errors.NOT_FOUND));
+        } else if (!compare(email, existingUser.email)) {
+          reject(Error(errors.NOT_FOUND));
+        } else {
+          const userId = existingUser.id;
+          const userSession = await entities.userSession.add(userId, email, rememberSession);
+          resolve({ userId: existingUser.id, sessionId: userSession.id });
+        }
+      });
+    });
     return signinAction;
   };
 

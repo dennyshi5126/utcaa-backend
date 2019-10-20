@@ -35,7 +35,7 @@ const signin = async (req, res, next) => {
 
     entities.user.signin(email, password, remember_login).then(result => {
       res.response = {
-        data: { user_id: result.user_id, session_id: result.session_id },
+        data: { userId: result.userId, sessionId: result.sessionId },
       };
       next();
     });
