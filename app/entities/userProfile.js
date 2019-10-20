@@ -75,5 +75,6 @@ export default (sequelize, Sequelize) => {
         }
       });
     });
+    return editProfileAction;
   };
 };
