@@ -27,6 +27,12 @@ export default function(sequelize, Sequelize) {
         allowNull: false,
         field: 'expired_at',
       },
+      active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        filed: 'active',
+      },
     },
     {
       tableName: 'password_resets',
