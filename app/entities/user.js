@@ -234,7 +234,7 @@ export default function(sequelize, Sequelize) {
     return updatePasswordPromise;
   };
 
-  user.confirmForgetPassword = function(email, hash) {
+  user.resetPassword = function(email, hash) {
     const now = new Date();
     const confirmForgetPasswordPromise = new Promise((resolve, reject) => {
       entities.passwordReset
@@ -260,7 +260,7 @@ export default function(sequelize, Sequelize) {
     return confirmForgetPasswordPromise;
   };
 
-  user.resetPassword = function(email, password, id) {
+  user.confirmForgetPassword = function(email, password, id) {
     const resetPasswordPromise = new Promise((resolve, reject) => {
       let where = { id };
       if (!id) {
@@ -272,7 +272,10 @@ export default function(sequelize, Sequelize) {
           if (!existingUser) {
             reject(Error(errors.NOT_FOUND));
           } else {
-            passwordReset.update({ active: false }, { where: { id: id } });
+            passwordReset.then(() => {
+              user.update({ active: false }, { where: { id: id } });
+            });
+
             user
               .update({ password: hash(password) }, { where: { id: existingUser.id } })
               .then(() => {
