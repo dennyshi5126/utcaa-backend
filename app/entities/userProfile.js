@@ -76,4 +76,19 @@ export default (sequelize, Sequelize) => {
       });
     });
   };
+
+  userProfile.add = (userId, firstName, lastName, phone, wechat, yearOfGraduation, program, profession, city) => {
+    return userProfile.create({
+      userId: userId,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      wechat: wechat,
+      yearOfGraduation: yearOfGraduation,
+      program: program,
+      profession: profession,
+      city: city,
+    });
+  };
+  return userProfile;
 };

@@ -43,6 +43,15 @@ export default function(sequelize, Sequelize) {
     }
   );
 
+  user.add = function(email, password, consented) {
+    password = hash(password);
+    return user.create({
+      email: email,
+      password: password,
+      consented: true,
+    });
+  };
+
   user.associate = function(entities) {
     user.hasMany(entities.userHistory);
     user.hasMany(entities.userSession);
@@ -111,20 +120,20 @@ export default function(sequelize, Sequelize) {
     yearOfGraduation,
     program,
     profession,
-    location
+    city
   ) {
     const signupAction = new Promise((resolve, reject) => {
-      if (email != existingUser.email) {
-        <div>const hashedpassword = hash(password)</div>;
-        return (
-          <div>
-            user({(email, hashedpassword)}); userProfile(
-            {(firstName, lastName, phone, wechat, yearOfGraduation, program, profession)})
-          </div>
-        );
-      } else {
-        reject(Error(errors.DATA_STATE_CONFILCT));
-      }
+      user.findOne({ where: email }).then(function(email) {
+        if (email == user.email) {
+          reject(Error(errors.DATA_STATE_CONFILCT));
+        } else {
+          let userId = user.id;
+          user.add(email, password, consented);
+          userProfile
+            .add(userId, firstName, lastName, phone, wechat, yearOfGraduation, program, profession, city)
+            .then(() => resolve({}));
+        }
+      });
     });
     return signupAction;
   };
