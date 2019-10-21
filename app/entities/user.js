@@ -16,7 +16,6 @@ export default function(sequelize, Sequelize) {
       id: {
         type: Sequelize.STRING(45),
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
         isUnique: true,
       },
@@ -43,9 +42,10 @@ export default function(sequelize, Sequelize) {
     }
   );
 
-  user.add = function(email, password, consented) {
+  user.add = function(id, email, password, consented) {
     password = hash(password);
     return user.create({
+      id: id,
       email: email,
       password: password,
       consented: true,
@@ -110,28 +110,17 @@ export default function(sequelize, Sequelize) {
     return authenticate;
   };
 
-  user.signup = function(
-    email,
-    password,
-    firstName,
-    lastName,
-    phone,
-    wechat,
-    yearOfGraduation,
-    program,
-    profession,
-    city
-  ) {
+  user.signup = (email, password, firstName, lastName, phone, wechat, yearOfGraduation, program, profession, city) => {
     const signupAction = new Promise((resolve, reject) => {
-      user.findOne({ where: email }).then(function(email) {
-        if (email == user.email) {
-          reject(Error(errors.DATA_STATE_CONFILCT));
-        } else {
-          let userId = user.id;
-          user.add(email, password, consented);
-          userProfile
-            .add(userId, firstName, lastName, phone, wechat, yearOfGraduation, program, profession, city)
-            .then(() => resolve({}));
+      user.findOne({ where: email }).then(email => {
+        if (email == user.email) reject(Error(errors.DATA_STATE_CONFILCT));
+        else {
+          let userId = uuid.v4();
+          user.add(id, email, password, consented).then(() => {
+            userProfile
+              .add(userId, firstName, lastName, phone, wechat, yearOfGraduation, program, profession, city)
+              .then(() => resolve({}));
+          });
         }
       });
     });
