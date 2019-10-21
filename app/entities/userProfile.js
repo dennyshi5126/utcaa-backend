@@ -75,6 +75,7 @@ export default (sequelize, Sequelize) => {
         }
       });
     });
+    return editProfileAction;
   };
 
   userProfile.add = (userId, firstName, lastName, phone, wechat, yearOfGraduation, program, profession, city) => {

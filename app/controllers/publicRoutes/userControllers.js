@@ -35,7 +35,7 @@ const signin = async (req, res, next) => {
 
     entities.user.signin(email, password, remember_login).then(result => {
       res.response = {
-        data: { user_id: result.user_id, session_id: result.session_id },
+        data: { userId: result.userId, sessionId: result.sessionId },
       };
       next();
     });
@@ -46,11 +46,18 @@ const forgetPassword = async (req, res, next) => {
   if (!req.body.email) {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_EMAIL'));
-  } else if (!req.body.resetLink) {
-    res.statusCode = 400;
-    next(Error(errors.REQUEST_DATA_NOT_FOUND + '_RESET_LINK'));
   } else {
-    //logics
+    const { email } = req.body;
+    entities.user
+      .forgetPassword(email)
+      .then(() => {
+        res.statusCode = 200;
+        res.respose = {};
+        next();
+      })
+      .catch(err => {
+        next(Error(errors.REQUEST_DATA_NOT_FOUND + err.message));
+      });
   }
 };
 

@@ -27,6 +27,12 @@ export default function(sequelize, Sequelize) {
         allowNull: false,
         field: 'expired_at',
       },
+      active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        filed: 'active',
+      },
     },
     {
       tableName: 'password_resets',
@@ -42,7 +48,7 @@ export default function(sequelize, Sequelize) {
       const hash = uuid.v4();
       const expiryDate = addDays(new Date(), 2);
       passwordReset
-        .create({ email, hash, expiredAt: expiryDate })
+        .create({ email, hash, expiredAt: expiryDate, active: true })
         .then(() => resolve(hash))
         .catch(err => reject(new Error(err)));
     });
