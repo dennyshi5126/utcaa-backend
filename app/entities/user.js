@@ -42,7 +42,7 @@ export default function(sequelize, Sequelize) {
     }
   );
 
-  user.add = function(id, email, password, consented) {
+  user.add = (id, email, password, consented) => {
     password = hash(password);
     return user.create({
       id: id,
@@ -52,12 +52,12 @@ export default function(sequelize, Sequelize) {
     });
   };
 
-  user.associate = function(entities) {
+  user.associate = entities => {
     user.hasMany(entities.userHistory);
     user.hasMany(entities.userSession);
   };
 
-  user.checkPermission = function(id, requestPermission) {
+  user.checkPermission = (id, requestPermission) => {
     const checkRight = new Promise((resolve, reject) => {
       entities.user
         .findOne({ where: { id } })
@@ -97,7 +97,7 @@ export default function(sequelize, Sequelize) {
     return checkRight;
   };
 
-  user.authenticate = function(userId, email, sessionId) {
+  user.authenticate = (userId, email, sessionId) => {
     const authenticate = new Promise((resolve, reject) => {
       isAuthenticated(userId, email, sessionId)
         .then(function() {
@@ -127,19 +127,19 @@ export default function(sequelize, Sequelize) {
     return signupAction;
   };
 
-  user.signin = function(email, password, rememberSession) {
+  user.signin = (email, password, rememberSession) => {
     const signinAction = new Promise((resolve, reject) => {});
     return signinAction;
   };
 
-  user.getProfile = function(id) {
+  user.getProfile = id => {
     return user.findOne({
       attributes: ['id'],
       where: { id },
     });
   };
 
-  user.edit = function(userId, name) {
+  user.edit = (userId, name) => {
     const editUserAction = new Promise((resolve, reject) => {
       user.findOne({ where: { id: userId } }).then(function(existingUser) {
         const userObject = {};
