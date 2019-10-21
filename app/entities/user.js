@@ -46,7 +46,7 @@ export default function(sequelize, Sequelize) {
   );
 
   user.add = (id, email, password, consented) => {
-    cont hashedpassword = hash(password);
+    const hashedpassword = hash(password);
     return user.create({
       id: id,
       email: email,
