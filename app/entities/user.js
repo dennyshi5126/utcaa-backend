@@ -17,7 +17,6 @@ export default function(sequelize, Sequelize) {
       id: {
         type: Sequelize.STRING(45),
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
         isUnique: true,
       },
@@ -46,12 +45,22 @@ export default function(sequelize, Sequelize) {
     }
   );
 
-  user.associate = function(entities) {
+  user.add = (id, email, password, consented) => {
+    const hashedPassword = hash(password);
+    return user.create({
+      id: id,
+      email: email,
+      password: hashedPassword,
+      consented: true,
+    });
+  };
+
+  user.associate = entities => {
     user.hasMany(entities.userHistory);
     user.hasMany(entities.userSession);
   };
 
-  user.checkPermission = function(id, requestPermission) {
+  user.checkPermission = (id, requestPermission) => {
     const checkRight = new Promise((resolve, reject) => {
       entities.user
         .findOne({ where: { id } })
@@ -91,7 +100,7 @@ export default function(sequelize, Sequelize) {
     return checkRight;
   };
 
-  user.authenticate = function(userId, email, sessionId) {
+  user.authenticate = (userId, email, sessionId) => {
     const authenticate = new Promise((resolve, reject) => {
       isAuthenticated(userId, email, sessionId)
         .then(function() {
@@ -104,23 +113,25 @@ export default function(sequelize, Sequelize) {
     return authenticate;
   };
 
-  user.signup = function(
-    email,
-    password,
-    firstName,
-    lastName,
-    phone,
-    wechat,
-    yearOfGraduation,
-    program,
-    profession,
-    location
-  ) {
-    const signupAction = new Promise((resolve, reject) => {});
+  user.signup = (email, password, firstName, lastName, phone, wechat, yearOfGraduation, program, profession, city) => {
+    const signupAction = new Promise((resolve, reject) => {
+      user.findOne({ where: email }).then(email => {
+        if (email == user.email) reject(Error(errors.DATA_STATE_CONFILCT));
+        else {
+          let userId = uuid.v4();
+          user.add(id, email, password, consented).then(() => {
+            userProfile
+              .add(userId, firstName, lastName, phone, wechat, yearOfGraduation, program, profession, city)
+              .then(() => resolve({}));
+          });
+        }
+      });
+    });
     return signupAction;
   };
 
   user.signin = (email, password, rememberSession) => {
+    const signinAction = new Promise((resolve, reject) => {});
     const signinAction = new Promise((resolve, reject) => {
       user.findOne({ where: { email } }).then(async existingUser => {
         if (!existingUser) {
@@ -134,17 +145,18 @@ export default function(sequelize, Sequelize) {
         }
       });
     });
+
     return signinAction;
   };
 
-  user.getProfile = function(id) {
+  user.getProfile = id => {
     return user.findOne({
       attributes: ['id'],
       where: { id },
     });
   };
 
-  user.edit = function(userId, name) {
+  user.edit = (userId, name) => {
     const editUserAction = new Promise((resolve, reject) => {
       user.findOne({ where: { id: userId } }).then(function(existingUser) {
         const userObject = {};
