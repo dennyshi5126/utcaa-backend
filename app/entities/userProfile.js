@@ -8,8 +8,8 @@ export default (sequelize, Sequelize) => {
       id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false,
-        authenticate: true,
         isUnique: true,
       },
       userId: {
