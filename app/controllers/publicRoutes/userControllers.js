@@ -54,18 +54,19 @@ const forgetPassword = async (req, res, next) => {
   }
 };
 
-//when user click resetLink
-const resetPassword = async (req, res, next) => {
-  if (!req.url) {
+const confirmForgetPassword = async (req, res, next) => {
+  if (!req.body.url) {
     res.statusCode = 400;
-    next(Error(errors.REQUEST_DATA_NOT_FOUND + '_EMAIL'));
+    next(Error(errors.REQUEST_DATA_NOT_FOUND + '_URL'));
   } else {
-    //logics
+    entities.user.then(() => {
+      res.status(200).send({});
+      next();
+    });
   }
 };
 
-//when user click confirmResetPassword
-const confirmForgetPassword = async (req, res, next) => {
+const resetPassword = async (req, res, next) => {
   if (!req.body.email || req.body.email !== req.query.email.replace('%40', '@')) {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_EMAIL'));
@@ -76,7 +77,6 @@ const confirmForgetPassword = async (req, res, next) => {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_HASH'));
   } else {
-    //logics
     entities.user.then(() => {
       res.status(200).send({});
       next();
@@ -84,4 +84,4 @@ const confirmForgetPassword = async (req, res, next) => {
   }
 };
 
-export default { signup, signin, forgetPassword, resetPassword, confirmForgetPassword };
+export default { signup, signin, forgetPassword, confirmForgetPassword, resetPassword };
