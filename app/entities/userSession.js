@@ -44,6 +44,7 @@ export default function(sequelize, Sequelize) {
       },
     },
     {
+      tableName: 'user_sessions',
       timestamps: true,
       createdAt: 'created_at',
       updatedAt: false,
