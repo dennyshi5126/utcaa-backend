@@ -2,7 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
 import config from '../config/config';
-const sequelize = new Sequelize(config.db.database, config.db.username, config.db.password, config.db, {logging: false});
+const sequelize = new Sequelize(config.db.database, config.db.username, config.db.password, config.db, {
+  logging: false,
+});
 const db = {};
 
 fs.readdirSync(__dirname)

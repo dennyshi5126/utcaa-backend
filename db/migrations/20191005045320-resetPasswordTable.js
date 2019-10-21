@@ -24,7 +24,7 @@ module.exports = {
         isUnique: true,
       },
       expired_at: {
-        type: sequelize.DATE,
+        type: Sequelize.DATE,
         allowNull: false,
         isUnique: false,
       },

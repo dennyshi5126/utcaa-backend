@@ -1,7 +1,7 @@
 import { addDays } from '../utils/dateHandlers';
 import logger from '../utils/logging';
 import { ERROR_TYPES as errors } from '../utils/errors';
-import userSessions from '../repositories/userSessions';
+import userSessions from '../entities/userSession';
 
 export function isAuthenticated(id, email, sessionId) {
   const authenticateAction = new Promise((resolve, reject) => {
