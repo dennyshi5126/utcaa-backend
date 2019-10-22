@@ -55,18 +55,6 @@ const forgetPassword = async (req, res, next) => {
 };
 
 const confirmForgetPassword = async (req, res, next) => {
-  if (!req.body.url) {
-    res.statusCode = 400;
-    next(Error(errors.REQUEST_DATA_NOT_FOUND + '_URL'));
-  } else {
-    entities.user.then(() => {
-      res.status(200).send({});
-      next();
-    });
-  }
-};
-
-const resetPassword = async (req, res, next) => {
   if (!req.body.email || req.body.email !== req.query.email.replace('%40', '@')) {
     res.statusCode = 400;
     next(Error(errors.REQUEST_DATA_NOT_FOUND + '_EMAIL'));
@@ -84,4 +72,4 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
-export default { signup, signin, forgetPassword, confirmForgetPassword, resetPassword };
+export default { signup, signin, forgetPassword, confirmForgetPassword };
