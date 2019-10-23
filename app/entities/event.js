@@ -54,4 +54,6 @@ export default (sequelize, Sequelize) => {
       order: [['time', 'DESC']],
     });
   };
+
+  return event;
 };

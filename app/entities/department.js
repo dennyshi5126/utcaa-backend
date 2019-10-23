@@ -24,4 +24,6 @@ export default (sequelize, Sequelize) => {
   department.list = () => {
     return department.findAll();
   };
+
+  return department;
 };

@@ -5,7 +5,7 @@ import { ERROR_TYPES as errors } from '../utils/errors';
 import entities from '../entities';
 import uuid from 'uuid';
 import { isAuthenticated } from '../security/authProvider';
-import userSessions from '../repositories/userSessions';
+import userSessions from './userSession';
 import emailSender from '../utils/email/sender';
 import assembleResetPasswordEmail from '../utils/email/templates/forgetPassword';
 import passwordReset from './passwordReset';
@@ -326,6 +326,25 @@ export default function(sequelize, Sequelize) {
         });
     });
     return resetPasswordPromise;
+  };
+
+  user.getById = id => {
+    const userPromise = new Promise((resolve, reject) => {
+      user
+        .findOne({
+          where: {
+            id,
+          },
+        })
+        .then(res => {
+          if (!res) {
+            reject(Error(errors.NOT_FOUND));
+          } else {
+            resolve({});
+          }
+        });
+    });
+    return userPromise;
   };
 
   return user;
