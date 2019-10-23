@@ -265,7 +265,13 @@ export default function(sequelize, Sequelize) {
           } else if (!resetHash.active) {
             reject(Error(errors.INVALID_INPUT_DATA));
           } else {
-            user.resetPassword(email, password, id).then(() => resolve({}));
+            passwordReset
+              .update({ active: false }, { where: { id: id } })
+              .then(() => {
+                user
+                .resetPassword(email, password, id)
+                .then(() =>resolve({}))
+              })
           }
         });
     });
@@ -284,9 +290,6 @@ export default function(sequelize, Sequelize) {
           if (!existingUser) {
             reject(Error(errors.NOT_FOUND));
           } else {
-            entities.passwordReset.then(() => {
-              user.update({ active: false }, { where: { id: id } });
-            });
             user
               .update({ password: hash(password) }, { where: { id: existingUser.id } })
               .then(() => {
