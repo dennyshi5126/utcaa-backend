@@ -265,13 +265,16 @@ export default function(sequelize, Sequelize) {
           } else if (!resetHash.active) {
             reject(Error(errors.INVALID_INPUT_DATA));
           } else {
-            passwordReset
+            entities.passwordReset
               .update({ active: false }, { where: { id: id } })
               .then(() => {
                 user
                 .resetPassword(email, password, id)
                 .then(() =>resolve({}))
               })
+                .catch(function(err) {
+                  reject(Error(err));
+              });
           }
         });
     });
