@@ -10,7 +10,7 @@ publicRouter.route('/health').get(healthControllers.check);
 publicRouter.route('/users/password').post(userControllers.confirmForgetPassword);
 publicRouter.route('/departments').get(departmentControllers.list);
 publicRouter.route('/register').post(userControllers.signup);
-publicRouter.route('/user/signin').post(userControllers.signin);
+publicRouter.route('/users/signin').post(userControllers.signin);
 publicRouter.route('/users/password/reset').post(userControllers.forgetPassword);
 publicRouter.route('/events').get(eventControllers.list);
 
