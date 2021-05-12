@@ -30,7 +30,7 @@
     "uuid": "3.3.2",
     "winston": "3.2.1",
     "winston-daily-rotate-file": "3.8.0",
-    "nodemailer": "5.1.1",
+    "nodemailer": "6.4.16",
     "aws-sdk": "2.429.0"
   },
   "devDependencies": {
