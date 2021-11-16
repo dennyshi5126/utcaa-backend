@@ -31,7 +31,7 @@
     "winston": "3.2.1",
     "winston-daily-rotate-file": "3.8.0",
     "nodemailer": "5.1.1",
-    "aws-sdk": "2.429.0"
+    "aws-sdk": "2.814.0"
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",
